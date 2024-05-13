@@ -9,11 +9,8 @@ import ProductCard from '../components/productCard/page';
 export default async function Product() {
     const router = useRouter();
 
-
     const response: any = await axios.get('http://localhost:3008/warehouse/show_all_product');
     const jsondata = response.data;
-
-
 
     return (
         <>
@@ -27,10 +24,7 @@ export default async function Product() {
 
                     );
                 }
-
-
                 )}
-
             </div>
         </>
     );

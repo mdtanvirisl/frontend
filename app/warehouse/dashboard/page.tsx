@@ -1,4 +1,3 @@
-import Image from "next/image";
 import TopBar from "../components/topbar/page";
 
 export default function Home() {

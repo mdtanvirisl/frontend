@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Link from "next/link";
+import ProductCard from '../productCard/page';
+import StaffCard from '../staffCard/page';
 
 interface User {
     name: string;
@@ -16,6 +18,8 @@ interface User {
 export default function TopBar() {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
+    const [jsondata, setJsondata] = useState<any[]>([]);
+    const [searchCategory, setSearchCategory] = useState<string>('product');
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -56,6 +60,37 @@ export default function TopBar() {
     const handleProfile = () => {
         router.push('/warehouse/profile');
     };
+
+    const handleKeyUp = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target.value)
+        const searchName = event.target.value;
+        if (searchName === '') {
+            setJsondata([]);
+        } else {
+            if (searchCategory === 'product') {
+                try {
+                    const response = await axios.get('http://localhost:3008/warehouse/search_product_name/', { params: { name: searchName } });
+                    setJsondata(response.data);
+                    console.log(jsondata);
+                } catch (error) {
+                    console.error('Error searching for product:', error);
+                }
+            } else if (searchCategory == 'staff') {
+                try {
+                    const response = await axios.get('http://localhost:3008/warehouse/search_staff', { params: { name: searchName } });
+                    setJsondata(response.data);
+                    console.log(jsondata);
+                } catch (error) {
+                    console.error('Error searching for product:', error);
+                }
+            }
+        }
+    };
+
+    const handleCategoryChange = (category: string) => {
+        setSearchCategory(category); // Update searchCategory state
+        // setSearchResults([]); // Clear search results when category changes
+    };
     return (
         <>
             <div className="navbar bg-neutral text-neutral-content">
@@ -90,8 +125,12 @@ export default function TopBar() {
                 </div>
                 <div className="flex-none gap-2">
                     <div className="form-control">
-                        <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
+                        <input type="text" onChange={handleKeyUp} placeholder="Search" className="input input-bordered w-24 md:w-auto" />
                     </div>
+                    <select value={searchCategory} onChange={(e) => handleCategoryChange(e.target.value)} className="input input-bordered w-24 md:w-auto">
+                        <option value="product">Product</option>
+                        <option value="staff">Staff</option>
+                    </select>
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
@@ -115,6 +154,22 @@ export default function TopBar() {
                         </ul>
                     </div>
                 </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-5 m-3">
+                {jsondata ? (
+                    jsondata.map((item: any, index: number) => (
+                        <div key={index}>
+                            {searchCategory === 'product' ? (
+                                <ProductCard data={item} />
+                            ) : (
+                                <StaffCard data={item} />
+                            )}
+                        </div>
+                    ))
+                ) : (
+                    <div>Loading...</div> // Or any other loading indicator
+                )}
             </div>
         </>
     );
