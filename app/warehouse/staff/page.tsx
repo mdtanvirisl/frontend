@@ -16,16 +16,10 @@ export default async function Product() {
             <div className="grid grid-cols-2 gap-5 m-3">
                 {jsondata.map((items: any, index: any) => {
                     return (<div key={index}>
-
                         <StaffCard data={items} />
                     </div>
-
                     );
-                }
-
-
-                )}
-
+                })}
             </div>
         </>
     );

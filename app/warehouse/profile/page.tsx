@@ -62,19 +62,21 @@ export default function Profile() {
     return (
         <>
             <TopBar />
-            <div className="card w-96 bg-base-100 shadow-xl">
-                <figure className="px-10 pt-10">
-                    <img src={'http://localhost:3008/warehouse/getimage/' + user.filename} alt="Shoes" className="rounded-xl" />
-                </figure>
-                <div className="card-body items-center text-center">
-                    <h2 className="card-title">ID: {user.warehouseId}</h2>
-                    Name: {user.name} <br />
-                    UserName: {user.username} <br />
-                    email: {user.email} <br />
-                    Address: {user.address} <br />
-                    {/* <input type="text" value={emailInput} onChange={handleEmailChange} /> */}
-                    <div className="card-actions">
-                        <button onClick={update} className="btn btn-primary">Update</button>
+            <div className='flex justify-center items-center h-screen'>
+                <div className="card w-96 bg-base-100 shadow-xl">
+                    <figure className="px-10 pt-10">
+                        <img src={'http://localhost:3008/warehouse/getimage/' + user.filename} alt="Shoes" className="rounded-xl" />
+                    </figure>
+                    <div className="card-body items-center text-center">
+                        <h2 className="card-title">ID: {user.warehouseId}</h2>
+                        Name: {user.name} <br />
+                        UserName: {user.username} <br />
+                        email: {user.email} <br />
+                        Address: {user.address} <br />
+                        {/* <input type="text" value={emailInput} onChange={handleEmailChange} /> */}
+                        <div className="card-actions">
+                            <button onClick={update} className="btn btn-primary">Update</button>
+                        </div>
                     </div>
                 </div>
             </div>

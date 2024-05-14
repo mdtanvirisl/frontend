@@ -1,13 +1,9 @@
-"use client"
-
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 import axios from 'axios';
 import TopBar from "../components/topbar/page";
 import ProductCard from '../components/productCard/page';
 
 export default async function Product() {
-    const router = useRouter();
 
     const response: any = await axios.get('http://localhost:3008/warehouse/show_all_product');
     const jsondata = response.data;

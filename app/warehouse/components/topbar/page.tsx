@@ -62,7 +62,7 @@ export default function TopBar() {
     };
 
     const handleKeyUp = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value)
+        // console.log(event.target.value)
         const searchName = event.target.value;
         if (searchName === '') {
             setJsondata([]);
@@ -71,7 +71,7 @@ export default function TopBar() {
                 try {
                     const response = await axios.get('http://localhost:3008/warehouse/search_product_name/', { params: { name: searchName } });
                     setJsondata(response.data);
-                    console.log(jsondata);
+                    // console.log(jsondata);
                 } catch (error) {
                     console.error('Error searching for product:', error);
                 }
@@ -79,17 +79,16 @@ export default function TopBar() {
                 try {
                     const response = await axios.get('http://localhost:3008/warehouse/search_staff', { params: { name: searchName } });
                     setJsondata(response.data);
-                    console.log(jsondata);
+                    // console.log(jsondata);
                 } catch (error) {
-                    console.error('Error searching for product:', error);
+                    console.error('Error searching for staff:', error);
                 }
             }
         }
     };
 
     const handleCategoryChange = (category: string) => {
-        setSearchCategory(category); // Update searchCategory state
-        // setSearchResults([]); // Clear search results when category changes
+        setSearchCategory(category);
     };
     return (
         <>
@@ -104,7 +103,7 @@ export default function TopBar() {
                         <li>
                             <div className="dropdown dropdown-end">
                                 <div tabIndex={1} role="button" className="">
-                                    <li>More</li>
+                                    More
                                 </div>
                                 <ul tabIndex={1} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-neutral text-neutral-content rounded-box w-52">
                                     <li>

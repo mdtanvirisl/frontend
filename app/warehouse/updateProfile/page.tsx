@@ -57,18 +57,22 @@ export default function Profile() {
 
         if (Object.keys(validationErrors).length === 0) {
             try {
-                const formDataObject = new FormData();
-                formDataObject.append('name', formData.name);
-                formDataObject.append('email', formData.email);
-                formDataObject.append('username', formData.username);
-                formDataObject.append('address', formData.address);
-                if (formData.myfile) {
-                    formDataObject.append('myfile', formData.myfile);
-                }
-                console.log(formDataObject);
-                const response = await axios.put('http://localhost:3008/warehouse/update_profile', formDataObject);
+                const token = localStorage.getItem('token');
+                const email = localStorage.getItem('email');
+
+                const response = await axios.put('http://localhost:3008/warehouse/update_profile/' + formData.username, {
+                    name: formData.name,
+                    email: formData.email,
+                    address: formData.address
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
 
                 // toast.success('Signup successful!');
+                localStorage.removeItem('email');
+                localStorage.setItem('email', formData.email);
                 router.push('/warehouse/profile');
 
             } catch (error) {
